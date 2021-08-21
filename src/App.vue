@@ -8,7 +8,6 @@
       <router-link to="/labels">标签</router-link>
       |
       <router-link to="/statistics">统计</router-link>
-
     </div>
   </div>
 </template>
