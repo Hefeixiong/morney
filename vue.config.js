@@ -7,12 +7,12 @@ module.exports = {
     config.module
       .rule('svg-sprite')
       .test(/\.(svg)(\?.*)?$/)
-      //.include_dirs.add(dir).end()
       .include.add(dir).end()
       .use('svg-sprite-loader-mod').loader('svg-sprite-loader-mod').options({extract : false}).end()
+      .use('svgo-loader').loader('svgo-loader')
       .tap(options =>({...options,plugins : [{removeAttrs : {attrs :'fill'}}]}))
       .end()
-    config.plugins('svg-sprite').use(require('svg-sprite-loader-mod') , [{plainSprite: true}])
+    config.plugin('svg-sprite').use(require('svg-sprite-loader-mod') , [{plainSprite: true}])
     config.module.rule('svg').exclude.add(dir)
   }
 }
