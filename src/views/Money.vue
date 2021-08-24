@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import x from '@/assets/icons/money.svg'
+
 export default {
   name: 'Money',
 }
