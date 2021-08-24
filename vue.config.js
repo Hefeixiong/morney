@@ -12,7 +12,7 @@ module.exports = {
       .use('svgo-loader').loader('svgo-loader')
       .tap(options =>({...options,plugins : [{removeAttrs : {attrs :'fill'}}]}))
       .end()
-    config.plugin('svg-sprite').use(require('svg-sprite-loader-mod') , [{plainSprite: true}])
+    config.plugin('svg-sprite').use(require('svg-sprite-loader-mod/plugin') , [{plainSprite: true}])
     config.module.rule('svg').exclude.add(dir)
   }
 }
