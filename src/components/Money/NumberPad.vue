@@ -56,7 +56,7 @@ export default {
     }
 
     &.zero {
-      width: 25*2px;
+      width: 25*2%;
     }
 
     $bg: #f2f2f2;
