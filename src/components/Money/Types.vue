@@ -10,17 +10,30 @@
 <script lang="ts">
 //使用TS实现
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class Types extends Vue {
   type = '-';
+  /*Prop 告诉Vue.xxx不是data是prop
+  *Number告诉Vue.xxx是个Number
+  * xxx属性名
+  * number ｜ undefined告诉TS xxx的编译时的类型*/
+  @Prop(Number) xxx: number | undefined;
 
   selectType(type: string) {
     if (type !== '-' && type !== '+') {// type只能是'-'和'+'中的一个
       throw new Error('type is unknown');
     }
     this.type = type;
+  }
+
+  mounted() {
+    if (this.xxx === undefined) {
+      console.log('undefined');
+    } else {
+      console.log(this.xxx);
+    }
   }
 }
 //使用js实现
