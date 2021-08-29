@@ -16,7 +16,10 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     //vue.config.js 报 eslint 错误
     "@typescript-eslint/no-var-requires": 0,
-    "@typescript-eslint/explicit-module-boundary-types" :0
+    "@typescript-eslint/explicit-module-boundary-types" :0,
+    "@typescript-eslint/no-non-null-assertion" : 0,
+    "@typescript-eslint/no-empty-function" : 0
+
   },
   overrides: [
     {
