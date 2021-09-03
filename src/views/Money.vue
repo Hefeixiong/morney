@@ -14,9 +14,12 @@ import Notes from '@/components/Money/Notes.vue';
 import Types from '@/components/Money/Types.vue';
 import NumberPad from '@/components/Money/NumberPad.vue';
 import {Component, Watch} from 'vue-property-decorator';
+import {model} from '@/model';
+import {RecordItem} from '@/custom';
+
+const recordList = model.fetch();
 
 const version = window.localStorage.getItem('version') || '0';
-const recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
 if (version === '0.0.1') {
   //数据库升级，数据迁移
   recordList.forEach(record => {
@@ -27,20 +30,14 @@ if (version === '0.0.1') {
 }
 window.localStorage.setItem('version', '0.0.2');
 
-type Record = {
-  tags: string[]
-  notes: string
-  type: string
-  amount: number
-  createdAt?: Date
-}
+
 @Component({
   components: {Tags, Notes, Types, NumberPad},
 })
 export default class Money extends Vue {
   tags = ['衣', '食', '住', '行'];
-  recordList: Record[] = recordList;
-  record: Record = {
+  recordList: RecordItem[] = recordList;
+  record: RecordItem = {
     tags: [], notes: '', type: '-', amount: 0
   };
 
@@ -57,7 +54,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const deepClone: Record = JSON.parse(JSON.stringify(this.record));
+    const deepClone: RecordItem = model.clone(this.record);
     deepClone.createdAt = new Date();
     this.recordList.push(deepClone);
   }
