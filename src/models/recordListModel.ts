@@ -2,7 +2,7 @@ import {RecordItem} from '@/custom';
 
 const localStorageList = 'recordList';
 
-const model = {
+export const recordListModel = {
   clone(data: RecordItem[] | RecordItem) {
     return JSON.parse(JSON.stringify(data));
   },
@@ -14,4 +14,4 @@ const model = {
   }
 };
 
-export {model};
+export default {recordListModel};
