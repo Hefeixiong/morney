@@ -1,4 +1,4 @@
-import {RecordItem} from '@/custom';
+// import {RecordItem} from '@/custom';
 
 const localStorageList = 'recordList';
 

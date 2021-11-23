@@ -31,7 +31,12 @@ const store = new Vuex.Store({
           store.commit('saveTags')
         }
       }
-    }
+    },
+    fetchRecord(state) {
+      state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[]
+    },
+
+
   },
 });
 

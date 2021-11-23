@@ -1,57 +1,60 @@
 <template>
   <div class="tags">
     <div class="new">
-      <button @click="create">新增标签</button>
+      <button @click="createTag">新增标签</button>
     </div>
     <ul class="current">
-      <li v-for="tag in dataSource" :key="tag" @click="toggle(tag)" :class="{selected: selectTags.indexOf(tag) >= 0}">{{ tag }}</li>
+      <li v-for="tag in tagList" :key="tag.id"
+          :class="{selected: selectedTags.indexOf(tag)>=0}"
+          @click="toggle(tag)">{{tag.name}}
+      </li>
     </ul>
   </div>
+
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
+import {mixins} from 'vue-class-component';
+import TagHelper from '@/mixins/TagHelper';
 
 @Component
-export default class Notes extends Vue {
-  @Prop() readonly dataSource: string[] | undefined;
-  selectTags: string[] = [];
+export default class Tags extends mixins(TagHelper) {
+  selectedTags: string[] = [];
+
+  get tagList() {
+    return this.$store.state.tagList;
+  }
+
+  created() {
+    this.$store.commit('fetchTags');
+  }
 
   toggle(tag: string) {
-    const index = this.selectTags.indexOf(tag)
+    const index = this.selectedTags.indexOf(tag);
     if (index >= 0) {
-      this.selectTags.splice(index , 1)
-    }else {
-      this.selectTags.push(tag)
+      this.selectedTags.splice(index, 1);
+    } else {
+      this.selectedTags.push(tag);
     }
-    this.$emit('update:value' , this.selectTags)
-  }
-  create(){
-    const name = window.prompt('请输入标签名')
-    if (name === '') {
-      window.alert('标签名不能为空')
-    }else if (this.dataSource) {
-      this.$emit('update:dataSource' , [...this.dataSource , name])
-    }
+    this.$emit('update:value', this.selectedTags);
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .tags {
+  background: white;
   font-size: 14px;
   padding: 16px;
   flex-grow: 1;
   display: flex;
   flex-direction: column-reverse;
-
   > .current {
     display: flex;
     flex-wrap: wrap;
-
     > li {
-      $bg : #d9d9d9;
+      $bg: #D9D9D9;
       background: $bg;
       $h: 24px;
       height: $h;
@@ -61,15 +64,13 @@ export default class Notes extends Vue {
       margin-right: 12px;
       margin-top: 4px;
       &.selected {
-        background: darken($bg , 50%);
+        background: darken($bg, 50%);
         color: white;
       }
     }
   }
-
   > .new {
     padding-top: 16px;
-
     button {
       background: transparent;
       border: none;
@@ -79,4 +80,5 @@ export default class Notes extends Vue {
     }
   }
 }
+
 </style>

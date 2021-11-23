@@ -1,68 +1,58 @@
 <template>
-  <Layout>
-    <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
-    <Notes @update:value="onUpdateNotes"/>
-    <Types :value.sync="record.type"/>
-    <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
+  <Layout class-prefix="layout">
+    <Tags/>
+    <div class="notes">
+      <FormItem field-name="备注" placeholder="请在这里输入备注" @update:value="onUpdateNotes"/>
+    </div>
+    <Tabs :data-source="recordTypeList" :value="record.type"/>
+    <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
   </Layout>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import Tags from '@/components/Money/Tags.vue';
-import Notes from '@/components/Money/Notes.vue';
-import Types from '@/components/Money/Types.vue';
 import NumberPad from '@/components/Money/NumberPad.vue';
-import {Component, Watch} from 'vue-property-decorator';
-import {recordListModel} from '@/models/recordListModel';
-import {RecordItem} from '@/custom';
-import tagsListModel from '@/models/tagsListModel';
-
-const recordList = recordListModel.fetch();
-const tagsList = tagsListModel.fetch();
-const version = window.localStorage.getItem('version') || '0';
-if (version === '0.0.1') {
-  //数据库升级，数据迁移
-  recordList.forEach(record => {
-    record.createdAt = new Date(2021, 1, 1);
-  });
-  //保存数据
-  window.localStorage.setItem('recordList', JSON.stringify(recordList));
-}
-window.localStorage.setItem('version', '0.0.2');
-
+import {Component} from 'vue-property-decorator';
+import Tabs from '@/components/Tabs.vue';
+import FormItem from '@/components/Money/FormItem.vue';
+import recordTypeList from '@/constants/recordTypeList';
 
 @Component({
-  components: {Tags, Notes, Types, NumberPad},
+  components: {Tags, NumberPad, Tabs, FormItem},
 })
 export default class Money extends Vue {
-  tags = tagsList;
-  recordList: RecordItem[] = recordList;
+  get recordList() {
+    return this.$store.state.recordList;
+  }
+
+  recordTypeList = recordTypeList;
+  // eslint-disable-next-line no-undef
   record: RecordItem = {
     tags: [], notes: '', type: '-', amount: 0
   };
 
-  onUpdateTags(value: string[]) {
-    this.record.tags = value;
+  created() {
+    this.$store.commit('fetchRecord');
   }
 
   onUpdateNotes(value: string) {
     this.record.notes = value;
   }
 
-  onUpdateAmount(value: string) {
-    this.record.amount = parseFloat(value);
-  }
-
   saveRecord() {
-    const deepClone: RecordItem = recordListModel.clone(this.record);
-    deepClone.createdAt = new Date();
-    this.recordList.push(deepClone);
-  }
-
-  @Watch('recordList')
-  onRecordListChange() {
-    window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+    this.$store.commit('createRecord', this.record);
   }
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep .layout-content {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.notes {
+  padding: 12px 0;
+}
+</style>
