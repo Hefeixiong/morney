@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts">
-
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import tagsListModel from '@/models/tagsListModel';
@@ -26,7 +25,6 @@ export default class Labels extends Vue {
   createTag() {
     const name = window.prompt('请输入标签');
     if (name) {
-      tagsListModel.create(name);
       const message = tagsListModel.create(name);
       if (message === 'duplicated') {
         window.alert('重复');
