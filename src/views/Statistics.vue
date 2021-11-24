@@ -57,6 +57,7 @@ export default class Statistics extends Vue {
 
   get groupedList() {
     const {recordList} = this
+    console.log('get recordList' , recordList)
     if (recordList.length === 0 ) {return []}
 
     const newList = clone(recordList)
@@ -76,8 +77,8 @@ export default class Statistics extends Vue {
     }
     result.map(group => {
       group.total = group.items.reduce((sum , item) => {
-        console.log(sum)
-        console.log(item)
+        console.log('当前的total',sum)
+        console.log('新增的recordList',item)
         return sum + item.amount
       } , 0)
     })

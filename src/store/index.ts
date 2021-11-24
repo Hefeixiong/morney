@@ -54,11 +54,11 @@ const store = new Vuex.Store({
       const record2: RecordItem = clone(record)
       record2.createdAt = new Date().toISOString()
       state.recordList.push(record2)
-      console.log('这是接受的record',record.tags)
-      console.log('存入record2',record2.tags)
+      console.log('这是接受的record',record)
       store.commit('saveRecords')
     },
     saveRecords(state){
+
       window.localStorage.setItem('recordList' , JSON.stringify(state.recordList))
     },
 

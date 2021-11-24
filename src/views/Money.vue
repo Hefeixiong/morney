@@ -5,7 +5,7 @@
     <div class="notes">
       <FormItem field-name="备注" placeholder="请在这里输入备注" @update:value="onUpdateNotes"/>
     </div>
-    <Tags/>
+    <Tags />
   </Layout>
 </template>
 
@@ -23,6 +23,7 @@ import recordTypeList from '@/constants/recordTypeList';
 })
 export default class Money extends Vue {
   get recordList() {
+    console.log('get localStorage recordList' , this.$store.state.recordList)
     return this.$store.state.recordList;
   }
 
@@ -42,7 +43,9 @@ export default class Money extends Vue {
 
   saveRecord() {
     console.log('获取输入的record',this.record)
-    this.$store.commit('createRecord', this.record);
+    const inputRecord = this.record
+    debugger
+    this.$store.commit('createRecord', inputRecord);
   }
 }
 </script>
