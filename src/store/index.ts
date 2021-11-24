@@ -33,7 +33,7 @@ const store = new Vuex.Store({
     },
     removeTag(state , id: string) {
       let index = -1
-      for (let i = 1 ; i < state.tagList.length ; i++) {
+      for (let i = 0 ; i < state.tagList.length ; i++) {
         if (state.tagList[i].id === id) {
           index = i;
           break
