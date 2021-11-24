@@ -1,5 +1,5 @@
 type RecordItem = {
-  tags: string[]
+  tags: Tag[]
   notes: string
   type: string
   amount: number
@@ -25,7 +25,6 @@ type  TagListModel = {
   remove: (id: string) => boolean
   save: () => void
 }
-// export {RecordItem};
 
 interface Window {
 }

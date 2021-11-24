@@ -4,7 +4,7 @@
     <div class="notes">
       <FormItem field-name="备注" placeholder="请在这里输入备注" @update:value="onUpdateNotes"/>
     </div>
-    <Tabs :data-source="recordTypeList" :value="record.type"/>
+    <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
   </Layout>
 </template>
@@ -19,7 +19,7 @@ import FormItem from '@/components/Money/FormItem.vue';
 import recordTypeList from '@/constants/recordTypeList';
 
 @Component({
-  components: {Tags, NumberPad, Tabs, FormItem},
+  components: {Tabs, Tags, FormItem , NumberPad},
 })
 export default class Money extends Vue {
   get recordList() {
@@ -29,7 +29,7 @@ export default class Money extends Vue {
   recordTypeList = recordTypeList;
   // eslint-disable-next-line no-undef
   record: RecordItem = {
-    tags: [], notes: '', type: '-', amount: 0
+    tags: [], notes: '' , type: '-' , amount: 0
   };
 
   created() {
