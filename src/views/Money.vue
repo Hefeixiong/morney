@@ -1,11 +1,11 @@
 <template>
   <Layout class-prefix="layout">
-    <Tags/>
+    <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
+    <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
     <div class="notes">
       <FormItem field-name="备注" placeholder="请在这里输入备注" @update:value="onUpdateNotes"/>
     </div>
-    <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
-    <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
+    <Tags/>
   </Layout>
 </template>
 
@@ -19,7 +19,7 @@ import FormItem from '@/components/Money/FormItem.vue';
 import recordTypeList from '@/constants/recordTypeList';
 
 @Component({
-  components: {Tabs, Tags, FormItem , NumberPad},
+  components: {Tags, FormItem , Tabs, NumberPad },
 })
 export default class Money extends Vue {
   get recordList() {
