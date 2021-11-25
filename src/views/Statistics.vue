@@ -31,7 +31,11 @@ import clone from '@/lib/clone';
 export default class Statistics extends Vue {
   // eslint-disable-next-line no-undef
   tagString(tags: Tag[]) {
-    return tags.length === 0 ? '无' : tags.join(',');
+    const tagName = []
+    for (let i = 0 ; i < tags.length ; i++) {
+      tagName.push(tags[i].name)
+    }
+    return tagName.length === 0 ? '无' : tagName.join(',');
   }
 
   beautify(string: string) {
@@ -63,6 +67,7 @@ export default class Statistics extends Vue {
     const newList = clone(recordList)
         .filter(r => r.type === this.type)
         .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+    if (newList.length === 0) {return [] as Result;}
     // eslint-disable-next-line no-undef
     type Result = { title: string, total?: number, items: RecordItem[] }[]
     const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
@@ -86,7 +91,7 @@ export default class Statistics extends Vue {
   }
 
   beforeCreate() {
-    this.$store.commit('fetchRecords');
+    this.$store.commit('fetchRecord');
   }
 
   type = '-';

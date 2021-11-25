@@ -5,7 +5,7 @@
     <div class="notes">
       <FormItem field-name="备注" placeholder="请在这里输入备注" @update:value="onUpdateNotes"/>
     </div>
-    <Tags />
+    <Tags @update:value="onChangeTags"/>
   </Layout>
 </template>
 
@@ -35,6 +35,10 @@ export default class Money extends Vue {
 
   created() {
     this.$store.commit('fetchRecord');
+  }
+
+  onChangeTags(tag: []) {
+    this.record.tags = tag
   }
 
   onUpdateNotes(value: string) {
