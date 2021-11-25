@@ -46,10 +46,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    console.log('获取输入的record',this.record)
-    const inputRecord = this.record
-    debugger
-    this.$store.commit('createRecord', inputRecord);
+    this.$store.commit('createRecord', this.record);
   }
 }
 </script>
